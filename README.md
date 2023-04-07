@@ -4,6 +4,10 @@ Write Better Python Code
 
 https://www.youtube.com/playlist?list=PLC0nd42SBTaNuP4iB4L6SJlMaHE71FG6N
 
+---------------
+
+SOLID Principles
+
 1. Single Responsibility
     Make things (classes, functions, etc.) responsible for fulfilling one type of role.
         e.g. Refactor code responsibilities into separate classes.
