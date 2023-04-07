@@ -17,6 +17,9 @@ class Order:
             total += self.quantities[i] * self.prices[i]
         return total
 
+# Single Responsibility
+# Make things (classes, functions, etc.) responsible for fulfilling one type of role.
+# e.g. Refactor code responsibilities into separate classes.
 class PaymentProcessor:
 
     def pay_debit(self, order, security_code):
