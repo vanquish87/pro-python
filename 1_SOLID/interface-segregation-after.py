@@ -2,6 +2,7 @@ from abc import ABC, abstractmethod
 
 
 class Order:
+
     def __init__(self):
         self.items = []
         self.quantities = []
@@ -25,19 +26,33 @@ class PaymentProcessor(ABC):
     def pay(self, order):
         pass
 
-# Liskov Substitution
-# When a class inherits from another class, the program shouldn't break and you shouldn't need to hack anything to use the subclass.
-# e.g. Define constructor arguments to keep inheritance flexible.
-class DebitPaymentProcessor(PaymentProcessor):
+# Interface Segregation
+# Make interfaces (parent abstract classes) more specific, rather than generic.
+# e.g. Create more interfaces (classes) if needed and/or provide objects to constructors.
+class PaymentProcessor_SMS(PaymentProcessor):
+    @abstractmethod
+    def auth_sms(self, code):
+        pass
+
+
+class DebitPaymentProcessor(PaymentProcessor_SMS):
     def __init__(self, security_code):
         self.security_code = security_code
+        self.verified = False
+
+    def auth_sms(self, code):
+        print(f"Verifying SMS code {code}")
+        self.verified = True
 
     def pay(self, order):
+        if not self.verified:
+            raise Exception("Not authorized")
         print("Processing debit payment type")
         print(f"Verifying security code: {self.security_code}")
         order.status = "paid"
 
 
+# don't need SMS code verification
 class CreditPaymentProcessor(PaymentProcessor):
     def __init__(self, security_code):
         self.security_code = security_code
@@ -48,12 +63,19 @@ class CreditPaymentProcessor(PaymentProcessor):
         order.status = "paid"
 
 
-# PaypalPaymentProcessor needs email_address not security_code
-class PaypalPaymentProcessor(PaymentProcessor):
+class PaypalPaymentProcessor(PaymentProcessor_SMS):
+
     def __init__(self, email_address):
         self.email_address = email_address
+        self.verified = False
+
+    def auth_sms(self, code):
+        print(f"Verifying SMS code {code}")
+        self.verified = True
 
     def pay(self, order):
+        if not self.verified:
+            raise Exception("Not authorized")
         print("Processing paypal payment type")
         print(f"Using email address: {self.email_address}")
         order.status = "paid"
@@ -65,5 +87,6 @@ order.add_item("SSD", 1, 150)
 order.add_item("USB cable", 2, 5)
 
 print(order.total_price())
-processor = PaypalPaymentProcessor("hi@arjancodes.com")
+processor = DebitPaymentProcessor("2349875")
+processor.auth_sms(465839)
 processor.pay(order)

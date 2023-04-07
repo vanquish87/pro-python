@@ -2,6 +2,7 @@ from abc import ABC, abstractmethod
 
 
 class Order:
+
     def __init__(self):
         self.items = []
         self.quantities = []
@@ -20,24 +21,45 @@ class Order:
         return total
 
 
+# Interface Segregation
+# Make interfaces (parent abstract classes) more specific, rather than generic.
+# e.g. Create more interfaces (classes) if needed and/or provide objects to constructors.
+# using composition ie, creating a whole new Class
+class SMSAuth():
+
+    authorized = False
+
+    def verify_code(self, code):
+        print(f'Verifying code {code}')
+        self.authorized = True
+
+    def is_authorized(self) -> bool:
+        return self.authorized
+
+
 class PaymentProcessor(ABC):
     @abstractmethod
     def pay(self, order):
         pass
 
-# Liskov Substitution
-# When a class inherits from another class, the program shouldn't break and you shouldn't need to hack anything to use the subclass.
-# e.g. Define constructor arguments to keep inheritance flexible.
+
 class DebitPaymentProcessor(PaymentProcessor):
-    def __init__(self, security_code):
+    # read more about this argument passing
+    def __init__(self, security_code, authorizer: SMSAuth):
         self.security_code = security_code
+        self.authorizer = authorizer
 
     def pay(self, order):
+        # calling from SMSAuth class
+        if not self.authorizer.is_authorized():
+            raise Exception("Not authorized")
+
         print("Processing debit payment type")
         print(f"Verifying security code: {self.security_code}")
         order.status = "paid"
 
 
+# don't need SMS code verification
 class CreditPaymentProcessor(PaymentProcessor):
     def __init__(self, security_code):
         self.security_code = security_code
@@ -48,12 +70,17 @@ class CreditPaymentProcessor(PaymentProcessor):
         order.status = "paid"
 
 
-# PaypalPaymentProcessor needs email_address not security_code
 class PaypalPaymentProcessor(PaymentProcessor):
-    def __init__(self, email_address):
+
+    # read more about this argument passing
+    def __init__(self, email_address, authorizer: SMSAuth):
         self.email_address = email_address
+        self.authorizer = authorizer
 
     def pay(self, order):
+        # calling from SMSAuth class
+        if not self.authorizer.is_authorized():
+            raise Exception("Not authorized")
         print("Processing paypal payment type")
         print(f"Using email address: {self.email_address}")
         order.status = "paid"
@@ -65,5 +92,9 @@ order.add_item("SSD", 1, 150)
 order.add_item("USB cable", 2, 5)
 
 print(order.total_price())
-processor = PaypalPaymentProcessor("hi@arjancodes.com")
+
+authorizer = SMSAuth()
+authorizer.verify_code(465839)
+
+processor = DebitPaymentProcessor("2349875", authorizer)
 processor.pay(order)
