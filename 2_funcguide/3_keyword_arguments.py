@@ -1,4 +1,4 @@
-# Tip 2: Separate Commands from queries
+# Tip 3 : Only request information you actually need
 
 from dataclasses import dataclass
 from datetime import datetime
@@ -25,17 +25,14 @@ class Customer:
     cc_number: str
     cc_exp_month: int
     cc_exp_year: int
-    # storing the value here
     cc_valid: bool = False
 
 
-def validate_card(customer: Customer) -> bool:
-    # Tip 2: Separate Commands from queries
-    # directly giving out return
-    return (
-        luhn_checksum(customer.cc_number)
-        and datetime(customer.cc_exp_year, customer.cc_exp_month, 1) > datetime.now()
-    )
+# Tip 3 : Only request information you actually need
+# using kwargs here will work
+# * at start will make sure arguments are always passed a kwargs or TypeError is thrown
+def validate_card(number: str, exp_month: int, exp_year: int) -> bool:
+    return luhn_checksum(number) and datetime(exp_year, exp_month, 1) > datetime.now()
 
 
 def main() -> None:
@@ -46,7 +43,11 @@ def main() -> None:
         cc_exp_month=1,
         cc_exp_year=2024,
     )
-    alice.cc_valid = validate_card(alice)
+    alice.cc_valid = validate_card(
+        number=alice.cc_number,
+        exp_month=alice.cc_exp_month,
+        exp_year=alice.cc_exp_year,
+    )
     print(f"Is Alice's card valid? {alice.cc_valid}")
     print(alice)
 
