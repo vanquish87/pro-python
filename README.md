@@ -6,7 +6,7 @@ https://www.youtube.com/playlist?list=PLC0nd42SBTaNuP4iB4L6SJlMaHE71FG6N
 
 ---------------
 
-SOLID Principles
+1. SOLID Principles
 
 1. Single Responsibility
     Make things (classes, functions, etc.) responsible for fulfilling one type of role.
@@ -28,3 +28,8 @@ SOLID Principles
 5. Dependency Inversion
     Make classes depend on abstract classes rather than non-abstract classes.
         e.g. Make classes inherit from abstract classes.
+
+
+2. The Ultimate Guide to Writing Functions.
+
+Video link: https://youtu.be/yatgY4NpZXE.
