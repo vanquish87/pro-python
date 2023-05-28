@@ -3,19 +3,9 @@ Very advanced Employee management system.
 """
 
 """
-Smell 5:
-Remove isInstance() in pay_employee() method
-this shows direct dependance between pay_employee() and subclasees of Employee
-ie, HourlyEmployee, SalariedEmployee,
-if we add new kind of employee we have to extend pay_employee() to adjust that
-which will fail SOLID design,
-Lot of Tight Coupling is bad thing
-
-Points to deeper issue: You didn't think how different part of code hold
-different responsibilities
-
-pay_employee() is for company but should be part of Employee class
-for every type of Employee child class as abstractclass
+Smell 6:
+removing boolean from take_a_holiday() method which is doing 2 things
+which could be split into 2 for easier readability, take_a_holiday() & payout_holiday()
 """
 
 from dataclasses import dataclass
@@ -47,30 +37,31 @@ class Employee(ABC):
     role: Role
     vacation_days: int = 25
 
-    def take_a_holiday(self, payout: bool) -> None:
-        """Let the employee take a single holiday, or pay out 5 holidays."""
-        if payout:
-            # check that there are enough vacation days left for a payout
-            if self.vacation_days < FIXED_VACATION_DAYS_PAYOUT:
-                raise ValueError(
-                    f"You don't have enough holidays left over for a payout.\
-                        Remaining holidays: {self.vacation_days}."
-                )
-            try:
-                self.vacation_days -= FIXED_VACATION_DAYS_PAYOUT
-                print(f"Paying out a holiday. Holidays left: {self.vacation_days}")
-            except Exception:
-                # this should never happen
-                pass
-        else:
-            if self.vacation_days < 1:
-                raise ValueError("You don't have any holidays left. Now back to work, you!")
-            self.vacation_days -= 1
-            print("Have fun on your holiday. Don't forget to check your emails!")
+    def take_a_holiday(self) -> None:
+        """Let the employee take a single holiday."""
+        if self.vacation_days < 1:
+            raise ValueError("You don't have any holidays left. Now back to work, you!")
+        self.vacation_days -= 1
+        print("Have fun on your holiday. Don't forget to check your emails!")
+
+    def payout_holiday(self):
+        # pay out 5 holidays
+        # check that there are enough vacation days left for a payout
+        if self.vacation_days < FIXED_VACATION_DAYS_PAYOUT:
+            raise ValueError(
+                f"You don't have enough holidays left over for a payout. Remaining holidays: {self.vacation_days}."
+            )
+        try:
+            self.vacation_days -= FIXED_VACATION_DAYS_PAYOUT
+            print(f"Paying out a holiday. Holidays left: {self.vacation_days}")
+        except Exception:
+            # this should never happen
+            pass
 
     @abstractmethod
     def pay(self) -> None:
-        '''Method to call when paying an employee'''
+        """Method to call when paying an employee"""
+
 
 @dataclass
 class HourlyEmployee(Employee):
@@ -125,8 +116,7 @@ def main() -> None:
     print(company.find_employees(role=Role.INTERN))
 
     company.employees[0].pay()
-    company.employees[0].take_a_holiday(False)
-
+    company.employees[0].take_a_holiday()
 
 
 if __name__ == "__main__":
