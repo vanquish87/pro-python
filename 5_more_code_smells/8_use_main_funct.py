@@ -3,10 +3,12 @@ Basic example of a Vehicle registration system.
 """
 
 """
-Smell 7:
-Not needed self use classmethod or staticmethod
-ex in generate_vehicle_license() n generate_vehicle_id()
+Smell 8:
+Use main() function rather than calling everthing in 
+if __name__ == "__main__":
 
+because every variable that is called will be actually available in OS where
+it is called might cause conflict between many programs called in ther
 """
 
 from dataclasses import dataclass
@@ -98,8 +100,8 @@ class VehicleRegistry:
     @staticmethod
     def generate_vehicle_license(_id: str) -> str:
         """Helper method for generating a vehicle license number."""
-        digit_part = ''.join(random.choices(string.digits, k=2))
-        letter_part = ''.join(random.choices(string.ascii_uppercase, k=2))
+        digit_part = "".join(random.choices(string.digits, k=2))
+        letter_part = "".join(random.choices(string.ascii_uppercase, k=2))
         return f"{_id[:2]}-{digit_part}-{letter_part}"
 
     def find_model_info(self, brand: str, model: str) -> Optional[VehicleModelInfo]:
@@ -126,7 +128,7 @@ class VehicleRegistry:
                 RegistryStatus.ONLINE
 
 
-if __name__ == "__main__":
+def main():
     # create a registry instance
     registry = VehicleRegistry()
 
@@ -144,3 +146,7 @@ if __name__ == "__main__":
 
     # print out the vehicle information
     print(vehicle)
+
+
+if __name__ == "__main__":
+    main()
