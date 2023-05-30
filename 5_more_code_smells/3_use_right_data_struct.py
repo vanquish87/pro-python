@@ -3,14 +3,9 @@ Basic example of a Vehicle registration system.
 """
 
 """
-Smell 2:
-Too deep nesting in register_vehicle() method
-split into find_model_info()
-
-harder to read, split it to make it cleaner n more readable
-combine if statements using logical operator AND OR
-main part of method should not be nested at all check register_vehicle()
-
+Smell 3:
+Using right Data structured in VehicleModelInfo()
+we chose list but rather using Dict for this, we will need combi of brand n model so tuple is the way to store VehicleRegistry()
 
 """
 
@@ -19,7 +14,7 @@ from enum import Enum, auto
 from random import *
 from string import *
 from datetime import datetime
-from typing import Optional
+from typing import Optional, Tuple
 
 
 class FuelType(Enum):
@@ -88,20 +83,15 @@ class VehicleRegistry:
     """Class representing a basic vehicle registration system."""
 
     def __init__(self) -> None:
-        self.vehicle_models: list[VehicleModelInfo] = []
+        # using dict than list here
+        # we will need combi of brand n model so tuple is the way to store
+        self.vehicle_models: dict[Tuple(str, str), VehicleModelInfo] = {}
         self.online = True
 
     def add_vehicle_model_info(self, model_info: VehicleModelInfo) -> None:
         """Helper method for adding a VehicleModelInfo object to a list."""
-        self.vehicle_models.append(
-            VehicleModelInfo(
-                model_info.brand,
-                model_info.model,
-                model_info.catalogue_price,
-                model_info.fuel_type,
-                model_info.launch_year,
-            )
-        )
+        # adding as unique key the object model_info
+        self.vehicle_models[(model_info.brand, model_info.model)] = model_info
 
     def generate_vehicle_id(self, length: int) -> str:
         """Helper method for generating a random vehicle id."""
@@ -111,21 +101,8 @@ class VehicleRegistry:
         """Helper method for generating a vehicle license number."""
         return f"{_id[:2]}-{''.join(choices(digits, k=2))}-{''.join(choices(ascii_uppercase, k=2))}"
 
-    # Optional from typing to return if found
     def find_model_info(self, brand: str, model: str) -> Optional[VehicleModelInfo]:
-        """Create a new vehicle and generate an id and a license plate."""
-        for vehicle_info in self.vehicle_models:
-            # combine if statements using logical operator
-            # main part of method should not be nested at all
-            # reversed the order of checking to accomplish this
-            if vehicle_info.brand != brand or vehicle_info.model != model:
-                continue
-        return vehicle_info
-
-        # original way
-        #     if vehicle_info.brand == brand and vehicle_info.model == model:
-        #         return vehicle_info
-        # return None
+        return self.vehicle_models.get((brand, model))
 
     def register_vehicle(self, brand: str, model: str) -> Vehicle:
         """Create a new vehicle and generate an id and a license plate."""
