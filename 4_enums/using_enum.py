@@ -10,12 +10,15 @@ class Season(Enum):
 
 # printing enum member as string
 print(Season.SPRING)
+print(type(Season.SPRING))
 
 # printing name of enum member using "name" keyword
 print(Season.SPRING.name)
+print(type(Season.SPRING.name))
 
 # printing value of enum member using "value" keyword
 print(Season.SPRING.value)
+print(type(Season.SPRING.value))
 
 # printing the type of enum member using type()
 print(type(Season.SPRING))

@@ -23,3 +23,12 @@ class MessageType(Enum):
 value = "chatEndedEvent"
 print(MessageType(value))
 print(MessageType(value).name)
+
+print(MessageType.SUPER_CHAT_EVENT)
+print(type(MessageType.SUPER_CHAT_EVENT))
+
+print(MessageType.SUPER_CHAT_EVENT.value)
+print(type(MessageType.SUPER_CHAT_EVENT.value))
+
+print(MessageType.SUPER_CHAT_EVENT.name)
+print(type(MessageType.SUPER_CHAT_EVENT.name))
