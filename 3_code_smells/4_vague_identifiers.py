@@ -97,7 +97,7 @@ class Company:
         elif isinstance(employee, HourlyEmployee):
             print(
                 f"Paying employee {employee.name} a hourly rate of \
-                ${employee.hourly_rate} for {employee.amount} hours."
+                ${employee.hourly_rate_dollar} for {employee.hours_worked} hours."
             )
 
 
@@ -114,6 +114,8 @@ def main() -> None:
     print(company.find_employees(role=Role.MANAGER))
     print(company.find_employees(role=Role.INTERN))
     company.pay_employee(company.employees[0])
+    company.pay_employee(company.employees[1])
+    company.pay_employee(company.employees[2])
     company.employees[0].take_a_holiday(False)
 
 

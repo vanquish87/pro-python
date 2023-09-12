@@ -117,6 +117,7 @@ def main() -> None:
 
     company.employees[0].pay()
     company.employees[0].take_a_holiday()
+    company.employees[0].payout_holiday()
 
 
 if __name__ == "__main__":

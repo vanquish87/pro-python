@@ -70,7 +70,8 @@ class Employee(ABC):
 
     @abstractmethod
     def pay(self) -> None:
-        '''Method to call when paying an employee'''
+        """Method to call when paying an employee"""
+
 
 @dataclass
 class HourlyEmployee(Employee):
@@ -81,7 +82,7 @@ class HourlyEmployee(Employee):
 
     def pay(self) -> None:
         """Pay an employee."""
-        print(f"Paying employee {self.name} a monthly salary of ${self.monthly_salary}.")
+        print(f"Paying employee {self.name} a hourly rate of ${self.hourly_rate_dollar} for {self.hours_worked} hours.")
 
 
 @dataclass
@@ -127,6 +128,8 @@ def main() -> None:
     company.employees[0].pay()
     company.employees[0].take_a_holiday(False)
 
+    company.employees[1].pay()
+    company.employees[2].pay()
 
 
 if __name__ == "__main__":
