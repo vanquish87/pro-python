@@ -1,15 +1,8 @@
 from typing import Iterable
 from item import Item
 
-
-"""Strings are converted into CONSTANTS to avoid typos n 
-have more readability n scalability"""
-
-
-# Item types
-AGED_BRIE = "Aged Brie"
-BACKSTAGE_PASSES = "Backstage passes to a TAFKAL80ETC concert"
-SULFURAS = "Sulfuras, Hand of Ragnaros"
+"""Updated item.sell_in to isolated to top now from 
+item.quality code updates which rest of the code does"""
 
 
 def update_quality(items: Iterable[Item]):
@@ -18,17 +11,17 @@ def update_quality(items: Iterable[Item]):
 
 
 def update_quality_single(item: Item):
-    if item.name != SULFURAS:
+    if item.name != "Sulfuras, Hand of Ragnaros":
         item.sell_in = item.sell_in - 1
 
-    if item.name != AGED_BRIE and item.name != BACKSTAGE_PASSES:
+    if item.name != "Aged Brie" and item.name != "Backstage passes to a TAFKAL80ETC concert":
         if item.quality > 0:
-            if item.name != SULFURAS:
+            if item.name != "Sulfuras, Hand of Ragnaros":
                 item.quality = item.quality - 1
     else:
         if item.quality < 50:
             item.quality = item.quality + 1
-            if item.name == BACKSTAGE_PASSES:
+            if item.name == "Backstage passes to a TAFKAL80ETC concert":
                 if item.sell_in < 10:
                     if item.quality < 50:
                         item.quality = item.quality + 1
@@ -36,10 +29,10 @@ def update_quality_single(item: Item):
                     if item.quality < 50:
                         item.quality = item.quality + 1
     if item.sell_in < 0:
-        if item.name != AGED_BRIE:
-            if item.name != BACKSTAGE_PASSES:
+        if item.name != "Aged Brie":
+            if item.name != "Backstage passes to a TAFKAL80ETC concert":
                 if item.quality > 0:
-                    if item.name != SULFURAS:
+                    if item.name != "Sulfuras, Hand of Ragnaros":
                         item.quality = item.quality - 1
             else:
                 item.quality = item.quality - item.quality
