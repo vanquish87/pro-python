@@ -1,18 +1,18 @@
 from typing import Iterable
 from item import Item
-from models import AgedBrieUpdater, BackstagePassesUpdater, SupfurasUpdater, DefaultItemUpdater, ConjureUpdater
+from models import AgedBrieUpdater, BackstagePassesUpdater, SupfurasUpdater, DefaultItemUpdater
 
-"""Adding 1 more Item
-CONJURED
+"""Cleaned up code into 3 files
+models.py n utils.py
 """
 
 # Item types
 AGED_BRIE = "Aged Brie"
 BACKSTAGE_PASSES = "Backstage passes to a TAFKAL80ETC concert"
 SULFURAS = "Sulfuras, Hand of Ragnaros"
-CONJURED = "Conjured Mana Cake"
 
-ITEM_UPDATER = {AGED_BRIE: AgedBrieUpdater(), BACKSTAGE_PASSES: BackstagePassesUpdater(), SULFURAS: SupfurasUpdater(), CONJURED: ConjureUpdater()}
+
+ITEM_UPDATER = {AGED_BRIE: AgedBrieUpdater(), BACKSTAGE_PASSES: BackstagePassesUpdater(), SULFURAS: SupfurasUpdater()}
 
 
 def update_quality(items: Iterable[Item]):

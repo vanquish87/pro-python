@@ -45,3 +45,10 @@ class SupfurasUpdater(DefaultItemUpdater):
 
     def update_sell_in(self, item: Item) -> None:
         pass
+
+
+class ConjureUpdater(DefaultItemUpdater):
+    def update_quality(self, item: Item) -> None:
+        decrease_item_quality(item, 2)
+        if item.sell_in < 0:
+            decrease_item_quality(item, 2)
