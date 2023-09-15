@@ -2,7 +2,10 @@ from typing import Iterable
 from item import Item
 
 
-"""inveerting the logic of != n =="""
+"""Created two helper func
+decrease_item_quality() n increase_item_quality()
+to help clean code n indentation"""
+
 
 # Item types
 AGED_BRIE = "Aged Brie"
@@ -24,9 +27,7 @@ def update_quality(items: Iterable[Item]):
 
 
 def update_quality_single(item: Item):
-    if item.name == SULFURAS:
-        pass
-    else:
+    if item.name != SULFURAS:
         item.sell_in = item.sell_in - 1
 
     if item.name != AGED_BRIE and item.name != BACKSTAGE_PASSES:
@@ -41,10 +42,10 @@ def update_quality_single(item: Item):
                 increase_item_quality(item)
     if item.sell_in < 0:
         if item.name != AGED_BRIE:
-            if item.name == BACKSTAGE_PASSES:
-                item.quality = 0
-            else:
+            if item.name != BACKSTAGE_PASSES:
                 if item.name != SULFURAS:
                     decrease_item_quality(item)
+            else:
+                item.quality = 0
         else:
             increase_item_quality(item)
