@@ -2,9 +2,7 @@ from typing import Iterable
 from item import Item
 
 
-"""
-CONTNUED
-inveerting the logic of != n =="""
+"""inverting the logic of != n =="""
 
 # Item types
 AGED_BRIE = "Aged Brie"
@@ -42,13 +40,11 @@ def update_quality_single(item: Item):
             if item.sell_in < 5:
                 increase_item_quality(item)
     if item.sell_in < 0:
-        if item.name == AGED_BRIE:
-            increase_item_quality(item)
-        else:
+        if item.name != AGED_BRIE:
             if item.name == BACKSTAGE_PASSES:
                 item.quality = 0
             else:
-                if item.name == SULFURAS:
-                    pass
-                else:
+                if item.name != SULFURAS:
                     decrease_item_quality(item)
+        else:
+            increase_item_quality(item)
