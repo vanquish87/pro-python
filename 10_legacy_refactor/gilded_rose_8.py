@@ -2,12 +2,12 @@ from typing import Iterable
 from item import Item
 
 
-"""BROKEN OR condition into 1 IF n another elif
-if item.name == AGED_BRIE or item.name == BACKSTAGE_PASSES:
-->
-if item.name == AGED_BRIE:
+"""
+if item.name != AGED_BRIE and item.name != BACKSTAGE_PASSES:
 
-elif item.name == BACKSTAGE_PASSES:
+!= AND != to == OR ==
+COVERTED TO ->
+if item.name == AGED_BRIE or item.name == BACKSTAGE_PASSES:
 """
 
 # Item types
@@ -35,16 +35,13 @@ def update_quality_single(item: Item):
     else:
         item.sell_in = item.sell_in - 1
 
-    if item.name == AGED_BRIE:
+    if item.name == AGED_BRIE or item.name == BACKSTAGE_PASSES:
         increase_item_quality(item)
-
-    elif item.name == BACKSTAGE_PASSES:
-        increase_item_quality(item)
-        if item.sell_in < 10:
-            increase_item_quality(item)
-        if item.sell_in < 5:
-            increase_item_quality(item)
-
+        if item.name == BACKSTAGE_PASSES:
+            if item.sell_in < 10:
+                increase_item_quality(item)
+            if item.sell_in < 5:
+                increase_item_quality(item)
     elif item.name == SULFURAS:
         pass
     else:
