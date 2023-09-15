@@ -1,8 +1,8 @@
 from typing import Iterable
 from item import Item
 
-"""Updated item.sell_in to isolated to top now from 
-item.quality code updates which rest of the code does"""
+"""Simply added function to decrease indendation
+with update_quality_single()"""
 
 
 def update_quality(items: Iterable[Item]):
@@ -11,9 +11,6 @@ def update_quality(items: Iterable[Item]):
 
 
 def update_quality_single(item: Item):
-    if item.name != "Sulfuras, Hand of Ragnaros":
-        item.sell_in = item.sell_in - 1
-
     if item.name != "Aged Brie" and item.name != "Backstage passes to a TAFKAL80ETC concert":
         if item.quality > 0:
             if item.name != "Sulfuras, Hand of Ragnaros":
@@ -22,12 +19,14 @@ def update_quality_single(item: Item):
         if item.quality < 50:
             item.quality = item.quality + 1
             if item.name == "Backstage passes to a TAFKAL80ETC concert":
-                if item.sell_in < 10:
+                if item.sell_in < 11:
                     if item.quality < 50:
                         item.quality = item.quality + 1
-                if item.sell_in < 5:
+                if item.sell_in < 6:
                     if item.quality < 50:
                         item.quality = item.quality + 1
+    if item.name != "Sulfuras, Hand of Ragnaros":
+        item.sell_in = item.sell_in - 1
     if item.sell_in < 0:
         if item.name != "Aged Brie":
             if item.name != "Backstage passes to a TAFKAL80ETC concert":
