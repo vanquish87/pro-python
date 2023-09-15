@@ -3,11 +3,7 @@ from item import Item
 
 
 """
-if item.name != AGED_BRIE and item.name != BACKSTAGE_PASSES:
-
-!= AND != to == OR ==
-COVERTED TO ->
-if item.name == AGED_BRIE or item.name == BACKSTAGE_PASSES:
+IF ELSE converted to ELIFs
 """
 
 # Item types
@@ -35,23 +31,24 @@ def update_quality_single(item: Item):
     else:
         item.sell_in = item.sell_in - 1
 
-    if item.name == AGED_BRIE or item.name == BACKSTAGE_PASSES:
+    if item.name != AGED_BRIE and item.name != BACKSTAGE_PASSES:
+        if item.name== SULFURAS:
+            pass
+        else:
+            decrease_item_quality(item)
+    else:
         increase_item_quality(item)
         if item.name == BACKSTAGE_PASSES:
             if item.sell_in < 10:
                 increase_item_quality(item)
             if item.sell_in < 5:
                 increase_item_quality(item)
-    elif item.name == SULFURAS:
-        pass
-    else:
-        decrease_item_quality(item)
     if item.sell_in < 0:
         if item.name == AGED_BRIE:
             increase_item_quality(item)
         elif item.name == BACKSTAGE_PASSES:
-            item.quality = 0
+                item.quality = 0
         elif item.name == SULFURAS:
-            pass
+                pass
         else:
             decrease_item_quality(item)
