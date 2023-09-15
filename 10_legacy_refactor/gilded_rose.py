@@ -1,9 +1,9 @@
-from typing import Iterable, Protocol
+from typing import Iterable
 from item import Item
+from models import AgedBrieUpdater, BackstagePassesUpdater, SupfurasUpdater, DefaultItemUpdater
 
-
-"""Adding abstraction to scale up the Items with
-DefaultItemUpdater, AgedBrieUpdater, BackstagePassesUpdater, SupfurasUpdater
+"""Cleaned up code into 3 files
+models.py n utils.py
 """
 
 # Item types
@@ -12,59 +12,7 @@ BACKSTAGE_PASSES = "Backstage passes to a TAFKAL80ETC concert"
 SULFURAS = "Sulfuras, Hand of Ragnaros"
 
 
-class ItemUpdater(Protocol):
-    def update_quality(self, item: Item) -> None:
-        ...
-
-    def undate_sell_in(self, item: Item) -> None:
-        ...
-
-
-class DefaultItemUpdater:
-    def update_quality(self, item: Item) -> None:
-        decrease_item_quality(item)
-        if item.sell_in < 0:
-            decrease_item_quality(item)
-
-    def update_sell_in(self, item: Item) -> None:
-        item.sell_in = item.sell_in - 1
-
-
-class AgedBrieUpdater(DefaultItemUpdater):
-    def update_quality(self, item: Item) -> None:
-        increase_item_quality(item)
-        if item.sell_in < 0:
-            increase_item_quality(item)
-
-
-class BackstagePassesUpdater(DefaultItemUpdater):
-    def update_quality(self, item: Item) -> None:
-        increase_item_quality(item)
-        if item.sell_in < 10:
-            increase_item_quality(item)
-        if item.sell_in < 5:
-            increase_item_quality(item)
-        if item.sell_in < 0:
-            item.quality = 0
-
-
-class SupfurasUpdater(DefaultItemUpdater):
-    def update_quality(self, item: Item) -> None:
-        pass
-
-    def update_sell_in(self, item: Item) -> None:
-        pass
-
-
 ITEM_UPDATER = {AGED_BRIE: AgedBrieUpdater(), BACKSTAGE_PASSES: BackstagePassesUpdater(), SULFURAS: SupfurasUpdater()}
-
-
-def decrease_item_quality(item: Item, amount: int = 1) -> None:
-    item.quality = max(0, item.quality - amount)
-
-
-def increase_item_quality(item: Item, amount: int = 1, max_quality: int = 50) -> None:
-    item.quality = min(max_quality, item.quality + amount)
 
 
 def update_quality(items: Iterable[Item]):
